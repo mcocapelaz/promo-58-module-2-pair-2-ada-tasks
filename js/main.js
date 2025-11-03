@@ -12,8 +12,7 @@ const tasks = [
   { name: "Recoger setas en el campo", completed: true, id: 1 },
   { name: "Comprar pilas", completed: true, id: 2 },
   { name: "Poner una lavadora de blancos", completed: true, id: 3 },
-  {
-    name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
+  {name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
     completed: false,
     id: 4,
   },
@@ -25,28 +24,36 @@ const tasks = [
 //   - con código auxiliar
 //   - con código que usaremos en los eventos
 //   - para pintar (render) en la página.
+// pintar la tarea en la lista
+
+
+//Creamos una variable vacía para ir metiendo el html: 
+
+let list = ""; 
+
+//Con el bucle pedimos que, por cada tarea, meta en la variable list el nombre de cada tarea 
 
 for (const task of tasks) {
-  // pintar la tarea en la lista
+  list += `<li>${task.name}</li>`;
+} 
 
-for (let i = 0; i <= tasks.length; i++) {
-   
-  const tasksList = document.querySelector(".task-list_js");
-  tasksList.innerHTML = 
-  `<li>${tasks[0].name}</li>
-  <li>${tasks[1].name}</li>
-  <li>${tasks[2].name}</li>
-  <li>${tasks[3].name}</li>
-  <li>${tasks[4].name}</li>`
-}
-  }
+//Lo pintamos con innerHTML
+
+document.querySelector(".task-list_js").innerHTML = list;
+
+//Este es el código al que llegamos y que lo dejo aquí comentado para que veas que estábamos cerca :) 
+
+//     for (let i = 0; i <= tasks.length; i++) {   
+//   const tasksList = document.querySelector(".task-list_js");
+// tasksList.innerHTML = 
+//   `<li>${tasks[0].name}</li>
+//   <li>${tasks[1].name}</li>
+//   <li>${tasks[2].name}</li>
+//   <li>${tasks[3].name}</li>
+//   <li>${tasks[4].name}</li>`
+// }
+
   
-
-
-
-
-
-
 // SECCIÓN DE EVENTOS
 // Estos son los eventos a los que reacciona la página
 // Los más comunes son: click (en botones, enlaces), input (en ídem) y submit (en form)
@@ -59,4 +66,4 @@ for (let i = 0; i <= tasks.length; i++) {
 //   - Pedir datos al servidor
 //   - Pintar (render) elementos en la página
 
-console.log('Página y JS cargados!');
+// console.log('Página y JS cargados!')
