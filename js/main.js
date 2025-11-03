@@ -8,12 +8,42 @@
 // SECCIÓN DE DATOS
 // Aquí van los arrays y las variables que contantan datos de la aplicación
 
+const tasks = [
+  { name: "Recoger setas en el campo", completed: true, id: 1 },
+  { name: "Comprar pilas", completed: true, id: 2 },
+  { name: "Poner una lavadora de blancos", completed: true, id: 3 },
+  {
+    name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
+    completed: false,
+    id: 4,
+  },
+];
+
 
 // SECCIÓN DE FUNCIONES
 // Estos son funciones:
 //   - con código auxiliar
 //   - con código que usaremos en los eventos
 //   - para pintar (render) en la página.
+
+for (const task of tasks) {
+  // pintar la tarea en la lista
+
+for (let i = 0; i <= tasks.length; i++) {
+   
+  const tasksList = document.querySelector(".task-list_js");
+  tasksList.innerHTML = 
+  `<li>${tasks[0].name}</li>
+  <li>${tasks[1].name}</li>
+  <li>${tasks[2].name}</li>
+  <li>${tasks[3].name}</li>
+  <li>${tasks[4].name}</li>`
+}
+  }
+  
+
+
+
 
 
 
