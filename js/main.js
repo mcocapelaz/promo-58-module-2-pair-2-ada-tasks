@@ -3,12 +3,12 @@
 // SECCIÓN DE QUERY-SELECTOR
 // Éstos son los elementos que nos traemos de la página HTML y usamos en el código
 
-
+const tasksUl= document.querySelector(".tasks-list_js")
 
 // SECCIÓN DE DATOS
 // Aquí van los arrays y las variables que contantan datos de la aplicación
 
-const tasks = [
+const listTasks = [
   { name: "Recoger setas en el campo", completed: true, id: 1 },
   { name: "Comprar pilas", completed: true, id: 2 },
   { name: "Poner una lavadora de blancos", completed: true, id: 3 },
@@ -27,31 +27,43 @@ const tasks = [
 // pintar la tarea en la lista
 
 
-//Creamos una variable vacía para ir metiendo el html: 
+//Pintar tareas
 
 let list = ""; 
 
-//Con el bucle pedimos que, por cada tarea, meta en la variable list el nombre de cada tarea 
-
-for (const task of tasks) {
-  list += `<li>${task.name}</li>`;
+for (const task of listTasks) {
+  list += `<li><input type="checkbox"/>${task.name}</li>`;
 } 
-
-//Lo pintamos con innerHTML
 
 document.querySelector(".task-list_js").innerHTML = list;
 
-//Este es el código al que llegamos y que lo dejo aquí comentado para que veas que estábamos cerca :) 
+// Tachar tareas 
 
-//     for (let i = 0; i <= tasks.length; i++) {   
-//   const tasksList = document.querySelector(".task-list_js");
-// tasksList.innerHTML = 
-//   `<li>${tasks[0].name}</li>
-//   <li>${tasks[1].name}</li>
-//   <li>${tasks[2].name}</li>
-//   <li>${tasks[3].name}</li>
-//   <li>${tasks[4].name}</li>`
-// }
+const task= tasks[0];
+
+tasksUl.innerHTML = '';
+for( const eachTaskObj of tasks) {
+
+  if (eachTaskObj.completed === true ) {
+    tasksUl.innerHTML += `<li class="tachado">
+    <input type= "checkbox" name="${eachTaskObj.id}" id="${eachTaskObj.id}>
+<label for ="${eachTaskObj.id}">${eachTaskObj.name}</label>
+</li>
+`;
+  }
+  else {
+    tasksUl.innerHTML += `
+<li> 
+  <input type= "checkbox" name= "${eachTaskObj.id}" id="${eachTaskObj.id}>
+  <label for ="${eachTaskObj.id}">${eachTaskObj.name}</label>
+  </li>
+  `}
+
+}
+
+
+
+
 
   
 // SECCIÓN DE EVENTOS
