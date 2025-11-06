@@ -3,12 +3,15 @@
 // SECCIÓN DE QUERY-SELECTOR
 // Éstos son los elementos que nos traemos de la página HTML y usamos en el código
 
-const tasksUl= document.querySelector(".tasks-list_js")
+const taskList = document.querySelector('.task-list_js');
+
+const GITHUB_USER = "IngraIssdottir";
+const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
 
 // SECCIÓN DE DATOS
 // Aquí van los arrays y las variables que contantan datos de la aplicación
 
-const listTasks = [
+const tasks = [
   { name: "Recoger setas en el campo", completed: true, id: 1 },
   { name: "Comprar pilas", completed: true, id: 2 },
   { name: "Poner una lavadora de blancos", completed: true, id: 3 },
@@ -17,6 +20,8 @@ const listTasks = [
     id: 4,
   },
 ];
+
+//let tasks = [];  ---> let vacío para cuando funcione el servidor XD
 
 
 // SECCIÓN DE FUNCIONES
@@ -29,33 +34,43 @@ const listTasks = [
 
 //Pintar tareas
 
-let list = ""; 
+/*let list = ""; 
 
 for (const task of listTasks) {
   list += `<li><input type="checkbox"/>${task.name}</li>`;
 } 
 
-document.querySelector(".task-list_js").innerHTML = list;
+document.querySelector(".task-list_js").innerHTML = list;*/
 
 // Tachar tareas 
 
-const task= tasks[0];
+fetch(SERVER_URL)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data)
+    document.body.innerHTML = data.result;
+  })
 
-tasksUl.innerHTML = '';
-for( const eachTaskObj of tasks) {
 
-  if (eachTaskObj.completed === true ) {
-    tasksUl.innerHTML += `<li class="tachado">
-    <input type= "checkbox" name="${eachTaskObj.id}" id="${eachTaskObj.id}>
-<label for ="${eachTaskObj.id}">${eachTaskObj.name}</label>
+const task = tasks [0];
+
+taskList.innerHTML = '';
+for (const oneTask of tasks) {
+  
+  if (oneTask.completed === true ) {
+    taskList.innerHTML += `<li class="tachado">
+    <input type= "checkbox" name="${oneTask.id}" id="${oneTask.id}" checked="${oneTask.completed}"/>
+<label for ="${oneTask.id}">${oneTask.name}</label>
 </li>
 `;
   }
   else {
-    tasksUl.innerHTML += `
+    taskList.innerHTML += `
 <li> 
-  <input type= "checkbox" name= "${eachTaskObj.id}" id="${eachTaskObj.id}>
-  <label for ="${eachTaskObj.id}">${eachTaskObj.name}</label>
+  <input type= "checkbox" name= "${oneTask.id}" id="${oneTask.id}"/>
+  <label for ="${oneTask.id}">${oneTask.name}</label>
   </li>
   `}
 
