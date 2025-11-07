@@ -1,69 +1,112 @@
-'use strict';
+"use strict";
 
-// SECCIÓN DE QUERY-SELECTOR
-// Éstos son los elementos que nos traemos de la página HTML y usamos en el código
-
-
-
-// SECCIÓN DE DATOS
-// Aquí van los arrays y las variables que contantan datos de la aplicación
-
-const tasks = [
-  { name: "Recoger setas en el campo", completed: true, id: 1 },
-  { name: "Comprar pilas", completed: true, id: 2 },
-  { name: "Poner una lavadora de blancos", completed: true, id: 3 },
-  {name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
-    completed: false,
-    id: 4,
-  },
-];
+// QUERY-SELECTOR
+const taskList = document.querySelector(".task-list_js");
+const addTaskBtn = document.querySelector('.js_add-task-btn');
+const taskInput = document.querySelector('.js_task-input');
+const tasksLocalStorage = JSON.parse(localStorage.getItem("tasks"));
 
 
-// SECCIÓN DE FUNCIONES
-// Estos son funciones:
-//   - con código auxiliar
-//   - con código que usaremos en los eventos
-//   - para pintar (render) en la página.
-// pintar la tarea en la lista
+// VARIABLES 
+const GITHUB_USER = "IngraIssdottir";
+const SERVER_URL = `https://dev.adalab.es/api/todo/IngraIssdottir`;
 
 
-//Creamos una variable vacía para ir metiendo el html: 
 
-let list = ""; 
+// DATOS
+let tasks = [];
 
-//Con el bucle pedimos que, por cada tarea, meta en la variable list el nombre de cada tarea 
+// FUNCIONES
 
-for (const task of tasks) {
-  list += `<li>${task.name}</li>`;
-} 
+function renderList() {
+  let list = "";
 
-//Lo pintamos con innerHTML
+  for (const oneTask of tasks) {
+    if (oneTask.completed === true) {
+      list += `
+        <li class="tachado">
+          <input type="checkbox" name="${oneTask.id}" id="${oneTask.id}" checked />
+          <label for="${oneTask.id}">${oneTask.name}</label>
+        </li>
+      `;
+    } else {
+      list += `
+        <li class= "js_li">
+          <input type="checkbox" name="${oneTask.id}" id="${oneTask.id}" />
+          <label for="${oneTask.id}">${oneTask.name}</label>
+        </li>
+      `;
+    }
+  }
 
-document.querySelector(".task-list_js").innerHTML = list;
+  taskList.innerHTML = list;
+}
 
-//Este es el código al que llegamos y que lo dejo aquí comentado para que veas que estábamos cerca :) 
+//EVENTOS 
 
-//     for (let i = 0; i <= tasks.length; i++) {   
-//   const tasksList = document.querySelector(".task-list_js");
-// tasksList.innerHTML = 
-//   `<li>${tasks[0].name}</li>
-//   <li>${tasks[1].name}</li>
-//   <li>${tasks[2].name}</li>
-//   <li>${tasks[3].name}</li>
-//   <li>${tasks[4].name}</li>`
-// }
-
+taskList.addEventListener('click', function(event) {
   
-// SECCIÓN DE EVENTOS
-// Estos son los eventos a los que reacciona la página
-// Los más comunes son: click (en botones, enlaces), input (en ídem) y submit (en form)
+  const item = event.target.parentElement;  
+  
+  if (event.target.checked) {    
+    item.classList.toggle('tachado');
+  } else {  
+    item.classList.toggle('tachado');
+  }
+});
+
+addTaskBtn.addEventListener('click', (ev) => {
+  
+});
+
+const handleNewTask = (event) => {
+  event.preventDefault();
+  const taskName = taskInput.value.trim();
+  
+
+  const newTask = {
+    name: taskName, 
+    completed: false,
+  };
+
+  tasks.push(newTask);
+  renderList();
+  taskInput.value = ""; 
+};
 
 
 
-// SECCIÓN DE ACCIONES AL CARGAR LA PÁGINA
-// Este código se ejecutará cuando se carga la página
-// Lo más común es:
-//   - Pedir datos al servidor
-//   - Pintar (render) elementos en la página
 
-// console.log('Página y JS cargados!')
+fetch(SERVER_URL)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+    return response.json();
+  })
+  .then((data) => {
+    tasks = data.results || data;
+    console.log("Datos recuperados:", tasks);
+    renderList();
+  })
+  .catch((error) => {
+    console.error("Error al obtener los datos:", error);
+  });
+
+  if (tasksLocalStorage !== null) {
+    if 
+  // si (existe el listado de tareas en Local Storage)
+  // pinta la lista de tareas almacenadas en tasksLocalStorage
+} else {
+  //sino existe el listado de tareas en el local storage
+  // pide los datos al servidor
+  fetch(SERVER_URL)
+    .then((response) => response.json())
+    .then((data) => {
+      //guarda el listado obtenido en el Local Storage
+      // pinta la lista de tareas
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
