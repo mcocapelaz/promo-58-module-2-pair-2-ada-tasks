@@ -75,38 +75,26 @@ const handleNewTask = (event) => {
 };
 
 
-
-
-fetch(SERVER_URL)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Error en la respuesta del servidor");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    tasks = data.results || data;
-    console.log("Datos recuperados:", tasks);
-    renderList();
-  })
-  .catch((error) => {
-    console.error("Error al obtener los datos:", error);
-  });
-
   if (tasksLocalStorage !== null) {
-    if 
-  // si (existe el listado de tareas en Local Storage)
-  // pinta la lista de tareas almacenadas en tasksLocalStorage
+   tasks = tasksLocalStorage;
+  renderList();
 } else {
-  //sino existe el listado de tareas en el local storage
-  // pide los datos al servidor
-  fetch(SERVER_URL)
-    .then((response) => response.json())
+    fetch(SERVER_URL)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error en la respuesta del servidor");
+      }
+      return response.json();
+    })
     .then((data) => {
-      //guarda el listado obtenido en el Local Storage
-      // pinta la lista de tareas
+      tasks = data.results || data;
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      
+      console.log("Datos recuperados:", tasks);
+      renderList();
     })
     .catch((error) => {
-      console.error(error);
+      console.error("Error al obtener los datos:", error);
     });
 }
+
