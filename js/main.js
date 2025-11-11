@@ -55,21 +55,21 @@ taskList.addEventListener('click', function(event) {
   }
 });
 
-addTaskBtn.addEventListener('click', (ev) => {
-  
-});
+
 
 const handleNewTask = (event) => {
   event.preventDefault();
-  const taskName = taskInput.value.trim();
   
+  const taskName = taskInput.value.trim();
+  if (taskName === "") return;
 
   const newTask = {
-    name: taskName, 
+    name: taskInput.value, 
     completed: false,
   };
 
   tasks.push(newTask);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
   renderList();
   taskInput.value = ""; 
 };
@@ -78,7 +78,7 @@ const handleNewTask = (event) => {
   if (tasksLocalStorage !== null) {
    tasks = tasksLocalStorage;
   renderList();
-} else {
+  } else {
     fetch(SERVER_URL)
     .then((response) => {
       if (!response.ok) {
@@ -96,5 +96,6 @@ const handleNewTask = (event) => {
     .catch((error) => {
       console.error("Error al obtener los datos:", error);
     });
-}
+  }
 
+addTaskBtn.addEventListener('click', handleNewTask);
