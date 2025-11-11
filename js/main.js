@@ -49,9 +49,9 @@ taskList.addEventListener('click', function(event) {
   const item = event.target.parentElement;  
   
   if (event.target.checked) {    
-    item.classList.toggle('tachado');
+    item.classList.add('tachado');
   } else {  
-    item.classList.toggle('tachado');
+    item.classList.remove('tachado');
   }
 });
 
